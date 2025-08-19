@@ -2406,3 +2406,11 @@ blockquote {
   left: auto !important;
   right: auto !important;
 }
+#content > div.notion-iframe > iframe {
+  width: 600px !important;
+  height: 500px !important;
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+}
