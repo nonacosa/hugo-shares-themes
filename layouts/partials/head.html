@@ -1,0 +1,17 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Dynamic title for SEO -->
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+<!-- Dynamic description for SEO -->
+<meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Params.description }}{{ end }}">
+{{- partialCached "head/css.html" . -}}
+{{- partialCached "head/favicon.html" . -}}
+
+<!-- Use post thumbnail as preview image -->
+{{ if .Params.image }}
+  <meta property="og:image" content="{{ .Params.image | absURL }}">
+{{ else if .Site.Params.defaultImage }}
+  <meta property="og:image" content="{{ .Site.Params.defaultImage | absURL }}">
+{{ end }}
+
+{{- /* template "_internal/google_analytics.html" . */ -}}
