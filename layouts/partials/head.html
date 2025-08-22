@@ -7,8 +7,27 @@
 <!-- Dynamic description for SEO -->
 <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else if .Params.description }}{{ .Params.description }}{{ else }}{{ .Summary }}{{ end }}">
 
+<!-- Keywords for SEO -->
+{{ if .Site.Params.keywords }}
+<meta name="keywords" content="{{ delimit .Site.Params.keywords ", " }}{{ if .Params.tags }}, {{ delimit .Params.tags ", " }}{{ end }}">
+{{ else if .Params.keywords }}
+<meta name="keywords" content="{{ delimit .Params.keywords ", " }}{{ if .Params.tags }}, {{ delimit .Params.tags ", " }}{{ end }}">
+{{ else if .Params.tags }}
+<meta name="keywords" content="{{ delimit .Params.tags ", " }}">
+{{ end }}
+
+<!-- Additional SEO meta tags -->
+<meta name="author" content="{{ with .Params.author }}{{ . }}{{ else }}{{ .Site.Params.author.name }}{{ end }}">
+<meta name="robots" content="index, follow">
+{{ if .IsPage }}
+<meta name="article:author" content="{{ with .Params.author }}{{ . }}{{ else }}{{ .Site.Params.author.name }}{{ end }}">
+{{ if .PublishDate }}<meta name="article:published_time" content="{{ .PublishDate.Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+{{ if .Lastmod }}<meta name="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">{{ end }}
+{{ end }}
+
 {{- partialCached "head/css.html" . -}}
 {{- partialCached "head/favicon.html" . -}}
+{{- partial "schema.html" . -}}
 
 {{/* Open Graph & Twitter Card */}}
 {{ $title := .Title | default .Site.Title }}
