@@ -60,16 +60,25 @@
 <!-- Tags section -->
 <section class="mb-8">
   <div class="flex flex-wrap gap-3">
-    {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
-      {{ $count := len $taxonomy }}
-      <a href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}" 
+    {{ $tags := slice }}
+    {{ range $name, $weightedPages := .Site.Taxonomies.tags }}
+      {{ $count := len $weightedPages.Pages }}
+      {{ $tags = $tags | append (dict "name" $name "count" $count) }}
+    {{ end }}
+
+    {{ $tags = sort $tags "count" "desc" }}
+
+    {{ range $tags }}
+      <a href="{{ "/tags/" | relLangURL }}{{ .name | urlize }}" 
          class="squishy-tag relative inline-flex items-center gap-1.5 text-sm font-semibold rounded-lg px-3 py-1.5 transition-all duration-300 cursor-pointer">
-        <span>{{ $name }}</span>
-        <span class="text-xs bg-white rounded-full px-1.5 py-0.5 font-medium">{{ $count }}</span>
+        <span>{{ .name }}</span>
+        <span class="text-xs bg-white rounded-full px-1.5 py-0.5 font-medium">{{ .count }}</span>
       </a>
     {{ end }}
   </div>
 </section>
+
+
 
 <hr class="my-8">
 
@@ -81,7 +90,7 @@
 
     <div class="flex items-center mb-6">
 
-      <h2 class="text-3xl md:text-4xl font-bold mr-auto">最新发现</h2>
+      <!-- <h2 class="text-3xl md:text-4xl font-bold mr-auto">最新发现</h2> -->
 
     </div>
 
