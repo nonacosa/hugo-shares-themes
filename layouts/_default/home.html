@@ -59,24 +59,50 @@
 
 <!-- Tags section -->
 <section class="mb-8">
-  <div class="flex flex-wrap gap-3">
-    {{ $tags := slice }}
-    {{ range $name, $weightedPages := .Site.Taxonomies.tags }}
-      {{ $count := len $weightedPages.Pages }}
-      {{ $tags = $tags | append (dict "name" $name "count" $count) }}
-    {{ end }}
+  <div class="relative">
+    <div id="tagsContainer" class="flex flex-wrap gap-3 overflow-hidden transition-all duration-300" style="max-height: 3rem;">
+      {{ $tags := slice }}
+      {{ range $name, $weightedPages := .Site.Taxonomies.tags }}
+        {{ $count := len $weightedPages.Pages }}
+        {{ $tags = $tags | append (dict "name" $name "count" $count) }}
+      {{ end }}
 
-    {{ $tags = sort $tags "count" "desc" }}
+      {{ $tags = sort $tags "count" "desc" }}
 
-    {{ range $tags }}
-      <a href="{{ "/tags/" | relLangURL }}{{ .name | urlize }}" 
-         class="squishy-tag relative inline-flex items-center gap-1.5 text-sm font-semibold rounded-lg px-3 py-1.5 transition-all duration-300 cursor-pointer">
-        <span>{{ .name }}</span>
-        <span class="text-xs bg-white rounded-full px-1.5 py-0.5 font-medium">{{ .count }}</span>
-      </a>
-    {{ end }}
+      {{ range $tags }}
+        <a href="{{ "/tags/" | relLangURL }}{{ .name | urlize }}" 
+           class="squishy-tag relative inline-flex items-center gap-1.5 text-sm font-semibold rounded-lg px-3 py-1.5 transition-all duration-300 cursor-pointer flex-shrink-0">
+          <span>{{ .name }}</span>
+          <span class="text-xs bg-white rounded-full px-1.5 py-0.5 font-medium">{{ .count }}</span>
+        </a>
+      {{ end }}
+    </div>
+    
+    <!-- Expand/Collapse button - positioned absolutely -->
+    <button id="toggleTags" 
+            class="absolute top-0 right-0 squishy-tag relative inline-flex items-center gap-1.5 text-sm font-semibold rounded-lg px-3 py-1.5 transition-all duration-300 cursor-pointer flex-shrink-0 bg-white border-2 border-dashed border-gray-300 hover:border-gray-400"
+            onclick="toggleTagsVisibility()">
+      <svg id="expandIcon" class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+      </svg>
+    </button>
   </div>
 </section>
+
+<script>
+function toggleTagsVisibility() {
+  const container = document.getElementById('tagsContainer');
+  const icon = document.getElementById('expandIcon');
+  
+  if (container.style.maxHeight === '3rem') {
+    container.style.maxHeight = 'none';
+    icon.style.transform = 'rotate(180deg)';
+  } else {
+    container.style.maxHeight = '3rem';
+    icon.style.transform = 'rotate(0deg)';
+  }
+}
+</script>
 
 
 
