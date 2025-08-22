@@ -22,21 +22,21 @@
   {{/* Support images array - use first image */}}
   {{ $firstImage := index .Params.images 0 }}
   {{ if not (strings.HasPrefix $firstImage "http") }}
-    {{ $image = printf "%s%s" $site_url $firstImage }}
+    {{ $image = printf "%s%s" .Permalink $firstImage }}
   {{ else }}
     {{ $image = $firstImage }}
   {{ end }}
 {{ else if .Params.image }}
   {{/* Support single image parameter */}}
   {{ if not (strings.HasPrefix .Params.image "http") }}
-    {{ $image = printf "%s%s" $site_url .Params.image }}
+    {{ $image = printf "%s%s" .Permalink .Params.image }}
   {{ else }}
     {{ $image = .Params.image }}
   {{ end }}
 {{ else if .Params.cover }}
   {{/* Support cover parameter */}}
   {{ if not (strings.HasPrefix .Params.cover "http") }}
-    {{ $image = printf "%s%s" $site_url .Params.cover }}
+    {{ $image = printf "%s%s" .Permalink .Params.cover }}
   {{ else }}
     {{ $image = .Params.cover }}
   {{ end }}
