@@ -26,7 +26,12 @@ Supports internationalized display for tags.
         {{- if $tagTerm }}
           {{- $tagURL = $tagTerm.RelPermalink }}
         {{- else }}
-          {{- $tagURL = printf "/%s/tags/%s/" $page.Site.Language.Lang (. | urlize) }}
+          {{/* Build language-appropriate tag URL */}}
+          {{- if eq $page.Site.Language.Lang "zh-cn" }}
+            {{- $tagURL = printf "/tags/%s/" (. | urlize) }}
+          {{- else }}
+            {{- $tagURL = printf "/%s/tags/%s/" $page.Site.Language.Lang (. | urlize) }}
+          {{- end }}
         {{- end }}
         <li><a class="py-2 px-6 border rounded-full hover:bg-zinc-100 active:bg-zinc-300" href="{{ $tagURL }}">{{ $localizedTag }}</a></li>
       {{- end }}
