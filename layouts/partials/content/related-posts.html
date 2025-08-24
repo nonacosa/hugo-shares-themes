@@ -11,9 +11,9 @@
       <a href="{{ .Permalink }}" class="block">
         {{ if .Params.image }}
         <div class="aspect-video overflow-hidden">
-          {{- $basePath := .Permalink -}}
+          {{- $basePath := .RelPermalink -}}
           {{- if eq .Site.Language.Lang "en" -}}
-            {{- $basePath = strings.TrimPrefix "/en" .Permalink -}}
+            {{- $basePath = strings.TrimPrefix "/en" .RelPermalink -}}
           {{- end -}}
           {{- $imagePath := printf "%s%s" $basePath .Params.image }}
           <img src="{{ $imagePath }}" alt="{{ .Title }}" 
@@ -48,9 +48,9 @@
       <a href="{{ .Permalink }}" class="block">
         {{ if .Params.image }}
         <div class="aspect-video overflow-hidden">
-          {{- $basePath := .Permalink -}}
+          {{- $basePath := .RelPermalink -}}
           {{- if eq .Site.Language.Lang "en" -}}
-            {{- $basePath = strings.TrimPrefix "/en" .Permalink -}}
+            {{- $basePath = strings.TrimPrefix "/en" .RelPermalink -}}
           {{- end -}}
           {{- $imagePath := printf "%s%s" $basePath .Params.image }}
           <img src="{{ $imagePath }}" alt="{{ .Title }}" 

@@ -16,10 +16,10 @@
 			  {{- $imgcard := $imgcard.Process "resize 750x" -}}
 			  <img class="object-cover group-hover:scale-105 transition duration-500 cursor-pointer" src="{{ $imgcard.Permalink }}" alt="{{ $.Name }}" width="{{ $imgcard.Width }}" height="{{ $imgcard.Height }}">
 			{{- else }}
-			  {{/* Fallback: construct language-neutral image path */}}
-			  {{- $basePath := .Permalink -}}
+			  {{/* Fallback: construct language-neutral relative image path */}}
+			  {{- $basePath := .RelPermalink -}}
 			  {{- if eq .Site.Language.Lang "en" -}}
-			    {{- $basePath = strings.TrimPrefix "/en" .Permalink -}}
+			    {{- $basePath = strings.TrimPrefix "/en" .RelPermalink -}}
 			  {{- end -}}
 			  {{- $imagePath := printf "%s%s" $basePath .Params.image }}
 			  <img class="object-cover group-hover:scale-105 transition duration-500 cursor-pointer" src="{{ $imagePath }}" alt="{{ $.Name }}" style="width: 100%; height: 100%; object-fit: cover;">

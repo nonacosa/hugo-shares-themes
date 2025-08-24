@@ -41,33 +41,36 @@
   {{/* Support images array - use first image */}}
   {{ $firstImage := index .Params.images 0 }}
   {{ if not (strings.HasPrefix $firstImage "http") }}
-    {{- $basePath := .Permalink -}}
+    {{- $basePath := .RelPermalink -}}
     {{- if eq .Site.Language.Lang "en" -}}
-      {{- $basePath = strings.TrimPrefix "/en" .Permalink -}}
+      {{- $basePath = strings.TrimPrefix "/en" .RelPermalink -}}
     {{- end -}}
-    {{ $image = printf "%s%s" $basePath $firstImage }}
+    {{- $relativeImagePath := printf "%s%s" $basePath $firstImage }}
+    {{ $image = printf "%s%s" .Site.BaseURL $relativeImagePath }}
   {{ else }}
     {{ $image = $firstImage }}
   {{ end }}
 {{ else if .Params.image }}
   {{/* Support single image parameter */}}
   {{ if not (strings.HasPrefix .Params.image "http") }}
-    {{- $basePath := .Permalink -}}
+    {{- $basePath := .RelPermalink -}}
     {{- if eq .Site.Language.Lang "en" -}}
-      {{- $basePath = strings.TrimPrefix "/en" .Permalink -}}
+      {{- $basePath = strings.TrimPrefix "/en" .RelPermalink -}}
     {{- end -}}
-    {{ $image = printf "%s%s" $basePath .Params.image }}
+    {{- $relativeImagePath := printf "%s%s" $basePath .Params.image }}
+    {{ $image = printf "%s%s" .Site.BaseURL $relativeImagePath }}
   {{ else }}
     {{ $image = .Params.image }}
   {{ end }}
 {{ else if .Params.cover }}
   {{/* Support cover parameter */}}
   {{ if not (strings.HasPrefix .Params.cover "http") }}
-    {{- $basePath := .Permalink -}}
+    {{- $basePath := .RelPermalink -}}
     {{- if eq .Site.Language.Lang "en" -}}
-      {{- $basePath = strings.TrimPrefix "/en" .Permalink -}}
+      {{- $basePath = strings.TrimPrefix "/en" .RelPermalink -}}
     {{- end -}}
-    {{ $image = printf "%s%s" $basePath .Params.cover }}
+    {{- $relativeImagePath := printf "%s%s" $basePath .Params.cover }}
+    {{ $image = printf "%s%s" .Site.BaseURL $relativeImagePath }}
   {{ else }}
     {{ $image = .Params.cover }}
   {{ end }}
