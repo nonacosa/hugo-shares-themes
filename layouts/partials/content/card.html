@@ -15,6 +15,14 @@
 			{{- with $imgcard := .Resources.GetMatch .Params.image -}}
 			  {{- $imgcard := $imgcard.Process "resize 750x" -}}
 			  <img class="object-cover group-hover:scale-105 transition duration-500 cursor-pointer" src="{{ $imgcard.Permalink }}" alt="{{ $.Name }}" width="{{ $imgcard.Width }}" height="{{ $imgcard.Height }}">
+			{{- else }}
+			  {{/* Fallback: construct language-neutral image path */}}
+			  {{- $basePath := .Permalink -}}
+			  {{- if eq .Site.Language.Lang "en" -}}
+			    {{- $basePath = strings.TrimPrefix "/en" .Permalink -}}
+			  {{- end -}}
+			  {{- $imagePath := printf "%s%s" $basePath .Params.image }}
+			  <img class="object-cover group-hover:scale-105 transition duration-500 cursor-pointer" src="{{ $imagePath }}" alt="{{ $.Name }}" style="width: 100%; height: 100%; object-fit: cover;">
 			{{- end }}
 
 			
